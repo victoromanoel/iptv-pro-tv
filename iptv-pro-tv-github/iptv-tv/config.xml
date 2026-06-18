@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.iptvpro.tv" version="1.0.0"
+    xmlns="http://www.w3.org/ns/widgets"
+    xmlns:cdv="http://cordova.apache.org/ns/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <name>IPTV Pro TV</name>
+    <description>IPTV Pro Player para Android TV e TV Box</description>
+    <author email="dev@iptvpro.com">IPTV Pro</author>
+
+    <content src="index.html" />
+
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="rtsp://*/*" />
+    <allow-intent href="rtmp://*/*" />
+    <allow-navigation href="*" />
+
+    <!-- Permissões -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <!-- Android TV: touchscreen NÃO é necessário -->
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+    <uses-feature android:name="android.software.leanback" android:required="false" />
+
+    <!-- Preferências gerais -->
+    <preference name="AllowInlineMediaPlayback" value="true" />
+    <preference name="MediaPlaybackRequiresUserAction" value="false" />
+    <preference name="AllowArbitraryLoads" value="true" />
+    <preference name="MixedContentMode" value="2" />
+    <preference name="android-minSdkVersion" value="21" />
+    <preference name="android-targetSdkVersion" value="34" />
+    <preference name="Orientation" value="landscape" />
+    <preference name="FullScreen" value="true" />
+    <preference name="BackgroundColor" value="0xFF08080f" />
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="SuppressesLongPressGesture" value="true" />
+    <preference name="HideKeyboardFormAccessoryBar" value="true" />
+
+    <platform name="android">
+        <allow-intent href="market:*" />
+
+        <!-- Activity principal com suporte TV e Leanback -->
+        <edit-config file="app/src/main/AndroidManifest.xml" target="/manifest/application/activity" mode="merge">
+            <activity android:banner="@drawable/banner"
+                      android:label="@string/activity_name"
+                      android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" />
+        </edit-config>
+
+        <!-- Intent filter Leanback para aparecer no menu da TV -->
+        <config-file target="app/src/main/AndroidManifest.xml" parent="/manifest/application/activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </config-file>
+    </platform>
+
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+    <plugin name="cordova-plugin-network-information" />
+    <plugin name="cordova-plugin-statusbar" />
+</widget>

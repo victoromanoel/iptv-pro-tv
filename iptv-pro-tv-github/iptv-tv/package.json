@@ -1,0 +1,27 @@
+{
+  "name": "iptv-pro-tv",
+  "displayName": "IPTV Pro TV",
+  "version": "1.0.0",
+  "description": "IPTV Pro Player para Android TV e TV Box",
+  "main": "index.js",
+  "scripts": {
+    "build": "cordova build android"
+  },
+  "dependencies": {
+    "cordova-android": "12.0.1",
+    "cordova-plugin-whitelist": "^1.3.5",
+    "cordova-plugin-network-information": "^3.0.0",
+    "cordova-plugin-statusbar": "^3.0.0"
+  },
+  "devDependencies": {
+    "cordova": "^12.0.0"
+  },
+  "cordova": {
+    "platforms": ["android"],
+    "plugins": {
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-network-information": {},
+      "cordova-plugin-statusbar": {}
+    }
+  }
+}
