@@ -1,0 +1,56 @@
+name: Build APK Android TV
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Instalar Cordova
+        run: npm install -g cordova@12
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Adicionar plataforma Android
+        run: cordova platform add android@12.0.1 --nosave
+
+      - name: Adicionar plugins
+        run: |
+          cordova plugin add cordova-plugin-whitelist --nosave || true
+          cordova plugin add cordova-plugin-network-information --nosave || true
+          cordova plugin add cordova-plugin-statusbar --nosave || true
+
+      - name: Build APK
+        run: cordova build android --debug
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: IPTV-Pro-TV-APK
+          path: platforms/android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v${{ github.run_number }}"
+          name: "IPTV Pro TV v${{ github.run_number }}"
+          body: "APK pronto para instalar na TV!"
+          files: platforms/android/app/build/outputs/apk/debug/app-debug.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
